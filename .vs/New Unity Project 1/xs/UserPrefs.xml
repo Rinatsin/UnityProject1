@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{FC9411EB-1B12-4154-0219-EEA7CBD09863}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/startSettings.cs">
+    <Files>
+      <File FileName="Assets/Scripts/MoveScript.cs" Line="63" Column="78" />
+      <File FileName="Assets/Scripts/CameraController.cs" />
+      <File FileName="Assets/Scripts/MouseRotate.cs" />
+      <File FileName="Assets/Scripts/startSettings.cs" Line="16" Column="68" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="New Unity Project 1" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="startSettings.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="3c79c604-7c24-4589-8022-73f9d5a88e60" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
