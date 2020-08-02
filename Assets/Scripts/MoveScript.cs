@@ -41,6 +41,7 @@ public class MoveScript : MonoBehaviour
             moveVector = Vector3.zero;
             moveVector.x = Input.GetAxis("Horizontal") * speedMove;
             moveVector.z = Input.GetAxis("Vertical") * speedMove;
+            moveVector = transform.TransformDirection(moveVector);//преобразуем вектор движения в направление движения
 
             //Анимация передвижения персонажа
             if (moveVector.x != 0 || moveVector.z != 0) ch_animator.SetBool("Move", true);
@@ -49,14 +50,14 @@ public class MoveScript : MonoBehaviour
             //поворот персонажа в сторону направления перемещения
             if (Vector3.Angle(Vector3.forward, moveVector) > 1f || Vector3.Angle(Vector3.forward, moveVector) == 0)
             {
-                Vector3 direct = Vector3.RotateTowards(transform.forward, moveVector, speedMove, 0.0f);
+                Vector3 direct = Vector3.RotateTowards(transform.forward, moveVector, speedMove * Time.deltaTime, 0.0f);
                 transform.rotation = Quaternion.LookRotation(direct);
             }
         }
         else
         {
             //при приложении силы гравитации более указанной воспроизводиться анимация падения
-            if (gravityForce < -3f) ch_animator.SetBool("Failing", true);
+            if (gravityForce < 5f) ch_animator.SetBool("Failing", true);
         }
 
         moveVector.y = gravityForce;
