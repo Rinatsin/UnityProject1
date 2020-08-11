@@ -28,10 +28,10 @@ public class startSettings : MonoBehaviour
 
         //Устанавливаем позицию игрока и камеры на сцене
         Player.transform.position = new Vector3(imageTexture.width / 2, 3, imageTexture.height / 2);
-        Vector3 offset = new Vector3(0, 2, -2.5f);
-        CameraMain.transform.position = Player.transform.position + offset;
+        //Vector3 offset = new Vector3(0, 2, -2.5f);
+        //CameraMain.transform.position = Player.transform.position + offset;
 
-        //Check pixel color and set objects on scene
+        //Устанавливаем цвет и объекты на сцене
         for (int x = 0; x < imageTexture.width; x++)
         {
             for (int y = 0; y< imageTexture.height; y++)

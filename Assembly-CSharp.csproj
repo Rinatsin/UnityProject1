@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\MouseRotate.cs" />
     <Compile Include="Assets\Scripts\MoveScript.cs" />
+    <Compile Include="Assets\Scripts\meshController.cs" />
     <Compile Include="Assets\Scripts\startSettings.cs" />
     <Reference Include="UnityEngine">
       <HintPath>/Applications/2019.4.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
