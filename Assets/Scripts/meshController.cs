@@ -12,6 +12,7 @@ public class meshController : MonoBehaviour
     private Vector2[] uvs;
 
     public string pathToImage; // Путь до изображения
+    public GameObject Player; // Игрок
 
     private Texture2D imageTexture; //избражение
     private float yAxisForMesh;
@@ -29,6 +30,14 @@ public class meshController : MonoBehaviour
         updateMesh();
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshCollider>().sharedMesh = mesh;
+        Renderer rend = GetComponent<MeshRenderer>();
+
+        //Создание и установка материала и текстуры поверхности
+        rend.material = new Material(Shader.Find("Standard"));
+        rend.material.mainTexture = imageTexture;
+
+        //Позиция игрока на сцене
+        Player.transform.position = new Vector3(imageTexture.width / 2, 3, imageTexture.height / 2);
     }
 
     void createMesh()
