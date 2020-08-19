@@ -64,6 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraController.cs" />
+    <Compile Include="Assets\Scripts\CoordinateViewer.cs" />
+    <Compile Include="Assets\Scripts\Dimensions.cs" />
     <Compile Include="Assets\Scripts\MouseRotate.cs" />
     <Compile Include="Assets\Scripts\MoveScript.cs" />
     <Compile Include="Assets\Scripts\meshController.cs" />

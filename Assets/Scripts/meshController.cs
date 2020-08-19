@@ -37,7 +37,7 @@ public class meshController : MonoBehaviour
         rend.material.mainTexture = imageTexture;
 
         //Позиция игрока на сцене
-        Player.transform.position = new Vector3(imageTexture.width / 2, 3, imageTexture.height / 2);
+        Player.transform.position = new Vector3(imageTexture.width / 2, 10, imageTexture.height / 2);
     }
 
     void createMesh()
