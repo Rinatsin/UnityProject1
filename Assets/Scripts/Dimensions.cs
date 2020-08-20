@@ -12,15 +12,11 @@ public class Dimensions : MonoBehaviour
     Vector3 cursorPos;
     RaycastHit hit;
     LineRenderer lineRenderer;
+    GameObject line;
 
-    //test----
-    Material material;
-    //test----
     void Start()
     {
-        lineRenderer = GetComponent<LineRenderer>();
-        material = new Material(Shader.Find("Standard"));
-        material.color = Color.green; 
+        //lineRenderer = GetComponent<LineRenderer>();
     }
 
     
@@ -39,22 +35,24 @@ public class Dimensions : MonoBehaviour
             {
                 point2 = hit.point;
 
+            } else if (point1 != Vector3.zero && point2 != Vector3.zero)
+            {
+                OnLineRender(point1, point2);
+                point1 = Vector3.zero;
+                point2 = Vector3.zero;
             }
-            Vector3[] points = new Vector3[2] { point1, point2 };
-            lineRenderer.SetPositions(points);
-            //OnLineRender(material, point1, point2);
-            //point1 = Vector3.zero;
-            //point2 = Vector3.zero;
         }
     }
 
-    void OnLineRender(Material lineMat, Vector3 point1, Vector3 point2)
+    /*
+     * Функция рисования линии по двум точкам
+     */
+    void OnLineRender(Vector3 point1, Vector3 point2)
     {
-        GL.Begin(GL.LINES);
-        lineMat.SetPass(0);
-        GL.Color(new Color(0f, 0f, 0f, 1f));
-        GL.Vertex3(point1.x, 5, point1.z);
-        GL.Vertex3(point2.x, 5, point2.z);
-        GL.End();
+        line = new GameObject();
+        lineRenderer = line.AddComponent<LineRenderer>();
+        lineRenderer.widthMultiplier = 0.2f;
+        Vector3[] points = new Vector3[2] { point1, point2 };
+        lineRenderer.SetPositions(points);
     }
 }
