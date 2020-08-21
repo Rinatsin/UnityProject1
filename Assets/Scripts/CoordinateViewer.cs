@@ -9,6 +9,11 @@ public class CoordinateViewer : MonoBehaviour
     Vector3 cursorPos;
     Text coordinate;
     RectTransform textPos;
+    Ray ray;
+    RaycastHit hit;
+
+    private string x;
+    private string z;
 
     void Start()
     {
@@ -18,11 +23,19 @@ public class CoordinateViewer : MonoBehaviour
 
     void Update()
     {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         textPos.position = Input.mousePosition;
 
-        string x = cursorPos.x.ToString("#.#");
-        string z = cursorPos.z.ToString("#.#");
+        if (Physics.Raycast(ray, out hit))
+        {
+            x = hit.point.x.ToString("#.#");
+            z = hit.point.z.ToString("#.#");
+        } else
+        {
+            x = cursorPos.x.ToString("#.#");
+            z = cursorPos.z.ToString("#.#");
+        }
         coordinate.text = "X: " + x + " Z: " + z;
     }
 }
