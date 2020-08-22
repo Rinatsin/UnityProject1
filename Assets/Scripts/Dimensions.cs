@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Dimensions : MonoBehaviour
 {
-    Vector3 point1 = Vector3.zero;
-    Vector3 point2 = Vector3.zero;
-    float distance = 0;
+    Vector3 point1 = Vector3.zero; //Начальная точка измерения
+    Vector3 point2 = Vector3.zero; //Конечная точка измерения
+    float distance = 0; // Расстояние от начальной до конечной точки
+
+    ArrayList _dimensions = new ArrayList(); //список всех полученных измерений
 
     Ray ray;
     Vector3 cursorPos;
@@ -14,15 +16,9 @@ public class Dimensions : MonoBehaviour
     LineRenderer lineRenderer;
     GameObject line;
 
-    void Start()
-    {
-       
-    }
 
-    
     void Update()
     {
-        
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green);
         if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit))
@@ -53,7 +49,7 @@ public class Dimensions : MonoBehaviour
     {
         line = new GameObject();
         lineRenderer = line.AddComponent<LineRenderer>();
-        lineRenderer.widthMultiplier = 0.2f;
+        lineRenderer.widthMultiplier = 0.1f;
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.startColor = Color.black;
         lineRenderer.endColor = Color.black;
@@ -66,9 +62,17 @@ public class Dimensions : MonoBehaviour
         //}
     }
 
+    /*
+     * Функция сохраняет полученные измерения
+     */
     void saveDimensions()
     {
+        ArrayList list = new ArrayList();//Список одного измерения [distance, point1, point2]
         distance = Vector3.Distance(point1, point2);
-        Debug.Log(distance);
+        list.Add(distance);
+        list.Add(point1);
+        list.Add(point2);
+        _dimensions.Add(list);
+        list.Clear();
     }
 }
