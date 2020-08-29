@@ -17,7 +17,7 @@ public class Dimensions : MonoBehaviour
     LineRenderer lineRenderer;
     GameObject line;
 
-    
+
     void Update()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -27,11 +27,12 @@ public class Dimensions : MonoBehaviour
             if (point1 == Vector3.zero)
             {
                 point1 = hit.point;
-
-            } else if (point1 != Vector3.zero && point2 == Vector3.zero)
+                StartCoroutine(createLine(point1, hit.point));
+            }
+            else if (point1 != Vector3.zero && point2 == Vector3.zero)
             {
                 point2 = hit.point;
-                StartCoroutine("updateLine");
+                StartCoroutine(updateLine(point1, point2));
                 saveDimensions();
                 point1 = Vector3.zero;
                 point2 = Vector3.zero;
@@ -39,26 +40,9 @@ public class Dimensions : MonoBehaviour
         }
         if (point1 != Vector3.zero && point2 == Vector3.zero && Physics.Raycast(ray, out hit))
         {
-            StartCoroutine("updateLine");
-
+            StartCoroutine(updateLine(point1, hit.point));
         }
     }
-
-    /*
-     * Функция рисования линии по двум точкам
-     */
-    //void OnLineRender(Vector3 point1, Vector3 point2)
-    //{
-    //    line = new GameObject("Line");
-    //    lineRenderer = line.AddComponent<LineRenderer>();
-    //    lineRenderer.widthMultiplier = 0.1f;
-    //    lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-    //    lineRenderer.startColor = Color.black;
-    //    lineRenderer.endColor = Color.black;
-    //    Vector3[] points = new Vector3[2] { point1, point2 };
-    //    lineRenderer.SetPositions(points);
-    //    lineRenderer.useWorldSpace = true;
-    //}
 
     /*
      * Функция сохраняет полученные измерения
@@ -73,7 +57,7 @@ public class Dimensions : MonoBehaviour
         _dimension.Clear();
     }
 
-    IEnumerator updateLine()
+    IEnumerator createLine(Vector3 p1, Vector3 p2)
     {
         line = new GameObject("Line ");
         lineRenderer = line.AddComponent<LineRenderer>();
@@ -81,12 +65,16 @@ public class Dimensions : MonoBehaviour
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.startColor = Color.black;
         lineRenderer.endColor = Color.green;
-        Vector3[] points = new Vector3[2] { point1, hit.point };
+        Vector3[] points = new Vector3[2] { p1, p2 };
         lineRenderer.SetPositions(points);
-        if (point2 == Vector3.zero)
-        {
-            Destroy(line, Time.deltaTime);
-        }
-        yield return new WaitForSeconds(.1f);
+        yield return null;
+    }
+
+    IEnumerator updateLine(Vector3 pos1, Vector3 pos2)
+    {
+        Vector3[] points = new Vector3[2] { pos1, pos2 };
+        lineRenderer.SetPositions(points);
+        yield return null;
+
     }
 }

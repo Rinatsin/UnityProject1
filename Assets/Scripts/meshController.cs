@@ -51,7 +51,7 @@ public class meshController : MonoBehaviour
                 pixelColor = imageTexture.GetPixel(x, z);
 
                 yAxisForMesh = pixelColor.r + pixelColor.g + pixelColor.b;
-                vertices[i] = new Vector3(x, yAxisForMesh, z);
+                vertices[i] = new Vector3(x, -2 * yAxisForMesh, z);
                 i++;
             }
         }
