@@ -6,13 +6,13 @@
       <File FileName="Assets/Scripts/MouseRotate.cs" />
       <File FileName="Assets/Scripts/startSettings.cs" />
       <File FileName="Assets/Scripts/meshController.cs" />
-      <File FileName="Assets/Scripts/Dimensions.cs" Line="57" Column="25" />
+      <File FileName="Assets/Scripts/Dimensions.cs" Line="121" Column="39" />
       <File FileName="Assets/Scripts/CoordinateViewer.cs" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="a2733215-d101-4aeb-a0ec-4521e172b4c5" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="c5049253-1fe8-48c3-8ec9-db0e240b953a" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

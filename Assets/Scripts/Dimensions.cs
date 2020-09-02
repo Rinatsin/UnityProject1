@@ -65,7 +65,6 @@ public class Dimensions : MonoBehaviour
     void saveDimensions()
     {
         distance = Vector3.Distance(point1, point2);
-        print(distance);
         _dimension.Add(distance);
         _dimension.Add(point1);
         _dimension.Add(point2);
@@ -84,7 +83,6 @@ public class Dimensions : MonoBehaviour
         lineRenderer.endColor = Color.green;
         Vector3[] points = new Vector3[2] { p1, p2 };
         lineRenderer.SetPositions(points);
-        line.transform.position = (p1 + p2) / 2;
         n++;
         yield return null;
     }
@@ -103,23 +101,15 @@ public class Dimensions : MonoBehaviour
         {
             lineCollider = line.AddComponent<BoxCollider>();
             lineCollider.transform.parent = lineRend.transform;
-            float lineWidth = lineRend.endWidth / 2;
+            float lineWidth = lineRend.endWidth;
             float lineLength = Vector3.Distance(p1, p2);
-            lineCollider.size = new Vector3(lineLength, lineWidth, 1f);
+            lineCollider.size = new Vector3(lineLength, lineWidth, .5f);
+            lineCollider.transform.position = (p1 + p2) / 2;
+            lineCollider.center = Vector3.zero;
             float angle = Mathf.Atan2((p2.z - p1.z), (p2.x - p1.x));
             angle *= Mathf.Rad2Deg;
             angle *= -1;
             lineCollider.transform.Rotate(0, angle, 0);
         }
-    }
-
-    //Параметрическое уравнение прямой для нахождения любой точки лежащей на этой прямой
-    Vector3 findLinePoint(Vector3 p1, Vector3 p2, float t)
-    {
-        Vector3 vector = new Vector3((p2.x - p1.x), (p2.y - p1.y), (p2.z - p1.z));
-        float x = vector.x * t + p1.x;
-        float y = vector.y * t + p1.y;
-        float z = vector.z * t + p1.z;
-        return new Vector3(x, y, z);
     }
 }
