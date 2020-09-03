@@ -12,23 +12,26 @@ public class Dimensions : MonoBehaviour
     float distance = 0; // Расстояние от начальной до конечной точки
 
     ArrayList _dimensions = new ArrayList(); //список всех полученных измерений
-    ArrayList _dimension = new ArrayList();//Список одного измерения[distance, point1, point2]
+    ArrayList _dimension = new ArrayList();//cписок одного измерения[distance, point1, point2]
+    ArrayList _selectedList = new ArrayList();// список выделенных объектов
 
     Ray ray;
     RaycastHit hit;
     LineRenderer lineRenderer;
     GameObject line;
     BoxCollider lineCollider;
-    Ray raySelect;
-    RaycastHit hitSelect;
 
 
     void Update()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Physics.Raycast(ray, out hit);
         Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green);
-        if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit))
+        if (Input.GetMouseButtonDown(0) && hit.collider.tag != "Line")
         {
+            //Снимаем выделение с объекта(ов) если кликнули не на линии 
+            clearSelected();
+            //Рисуем линию
             if (point1 == Vector3.zero)
             {
                 point1 = hit.point;
@@ -43,19 +46,16 @@ public class Dimensions : MonoBehaviour
                 point1 = Vector3.zero;
                 point2 = Vector3.zero;
             }
+        } else if (Input.GetMouseButtonDown(0) && hit.collider.tag == "Line")
+        {
+            line = hit.collider.gameObject;
+            _selectedList.Add(line);
+            line.GetComponent<LineRenderer>().startColor = Color.blue;
+            line.GetComponent<LineRenderer>().endColor = Color.blue;
         }
         if (point1 != Vector3.zero && point2 == Vector3.zero && Physics.Raycast(ray, out hit))
         {
             StartCoroutine(updateLine(point1, hit.point));
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            raySelect = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(raySelect, out hitSelect) && hitSelect.collider.tag == "Line")
-            {
-                lineRenderer.startColor = Color.blue;
-                lineRenderer.endColor = Color.blue;
-            }
         }
     }
 
@@ -72,6 +72,9 @@ public class Dimensions : MonoBehaviour
         _dimension.Clear();
     }
 
+    /*
+     * Функция рисует линию
+     */
     IEnumerator createLine(Vector3 p1, Vector3 p2)
     {
         line = new GameObject("Line " + n);
@@ -79,7 +82,7 @@ public class Dimensions : MonoBehaviour
         lineRenderer = line.AddComponent<LineRenderer>();
         lineRenderer.widthMultiplier = lineWidth;
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.startColor = Color.black;
+        lineRenderer.startColor = Color.green;
         lineRenderer.endColor = Color.green;
         Vector3[] points = new Vector3[2] { p1, p2 };
         lineRenderer.SetPositions(points);
@@ -87,6 +90,9 @@ public class Dimensions : MonoBehaviour
         yield return null;
     }
 
+    /*
+     * Функция обновляет положение линии
+     */
     IEnumerator updateLine(Vector3 pos1, Vector3 pos2)
     {
         Vector3[] points = new Vector3[2] { pos1, pos2 };
@@ -95,6 +101,9 @@ public class Dimensions : MonoBehaviour
 
     }
 
+    /*
+     * Функция добавляет коллаидер к линии
+     */
     void addCollider(LineRenderer lineRend, Vector3 p1, Vector3 p2)
     {
         if (line != null)
@@ -110,6 +119,22 @@ public class Dimensions : MonoBehaviour
             angle *= Mathf.Rad2Deg;
             angle *= -1;
             lineCollider.transform.Rotate(0, angle, 0);
+        }
+    }
+
+    /*
+     * Функция снимает выделение
+     */
+    void clearSelected()
+    {
+        if (_selectedList != null)
+        {
+            foreach (GameObject n in _selectedList)
+            {
+                n.GetComponent<LineRenderer>().startColor = Color.green;
+                n.GetComponent<LineRenderer>().endColor = Color.green;
+            }
+            _selectedList.Clear();
         }
     }
 }
