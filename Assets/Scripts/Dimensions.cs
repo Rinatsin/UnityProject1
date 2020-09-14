@@ -1,11 +1,43 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Dimensions : MonoBehaviour
 {
     public float lineWidth = .1f; //ширина линии
     int n = 1;// номер линии
+
+    [SerializeField] GameObject Panel;
+    private bool _panelIsOpened = false;
+    private bool _isOnHightlight = false;
+
+    public bool IsOnHightlight
+    {
+        get
+        {
+            return _isOnHightlight;
+        }
+
+        set
+        {
+            _isOnHightlight = value;
+        }
+    }
+
+    private bool _isOnMeasure = true;
+    public bool IsOnMeasure
+    {
+        get
+        {
+            return _isOnMeasure;
+        }
+
+        set
+        {
+            _isOnMeasure = value;
+        }
+    }
 
     Vector3 point1 = Vector3.zero; //Начальная точка измерения
     Vector3 point2 = Vector3.zero; //Конечная точка измерения
@@ -21,48 +53,46 @@ public class Dimensions : MonoBehaviour
     GameObject line;
     BoxCollider lineCollider;
 
-
     void Update()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(ray, out hit);
         Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green);
-        if (Input.GetMouseButtonDown(0) && hit.collider.tag != "Line")
+        OpenClosePanel();
+        DeleteSelectedLines();
+        if (Input.GetMouseButtonDown(0) && hit.collider.tag != "Line" && _isOnMeasure)
         {
             //Снимаем выделение с объекта(ов) если кликнули не на линии 
-            clearSelected();
+            ClearSelected();
             //Рисуем линию
             if (point1 == Vector3.zero)
             {
                 point1 = hit.point;
-                StartCoroutine(createLine(point1, hit.point));
+                StartCoroutine(CreateLine(point1, hit.point));
             }
             else if (point1 != Vector3.zero && point2 == Vector3.zero)
             {
                 point2 = hit.point;
-                StartCoroutine(updateLine(point1, point2));
-                addCollider(lineRenderer, point1, point2);
-                saveDimensions();
+                StartCoroutine(UpdateLine(point1, point2));
+                AddCollider(lineRenderer, point1, point2);
+                SaveDimensions();
                 point1 = Vector3.zero;
                 point2 = Vector3.zero;
             }
-        } else if (Input.GetMouseButtonDown(0) && hit.collider.tag == "Line")
+        } else if (Input.GetMouseButtonDown(0) && hit.collider.tag == "Line" && _isOnHightlight)
         {
-            line = hit.collider.gameObject;
-            _selectedList.Add(line);
-            line.GetComponent<LineRenderer>().startColor = Color.blue;
-            line.GetComponent<LineRenderer>().endColor = Color.blue;
+            SelectLine();
         }
         if (point1 != Vector3.zero && point2 == Vector3.zero && Physics.Raycast(ray, out hit))
         {
-            StartCoroutine(updateLine(point1, hit.point));
+            StartCoroutine(UpdateLine(point1, hit.point));
         }
     }
 
     /*
      * Функция сохраняет полученные измерения
      */
-    void saveDimensions()
+    private void SaveDimensions()
     {
         distance = Vector3.Distance(point1, point2);
         _dimension.Add(distance);
@@ -75,7 +105,7 @@ public class Dimensions : MonoBehaviour
     /*
      * Функция рисует линию
      */
-    IEnumerator createLine(Vector3 p1, Vector3 p2)
+    IEnumerator CreateLine(Vector3 p1, Vector3 p2)
     {
         line = new GameObject("Line " + n);
         line.tag = "Line";
@@ -93,7 +123,7 @@ public class Dimensions : MonoBehaviour
     /*
      * Функция обновляет положение линии
      */
-    IEnumerator updateLine(Vector3 pos1, Vector3 pos2)
+    IEnumerator UpdateLine(Vector3 pos1, Vector3 pos2)
     {
         Vector3[] points = new Vector3[2] { pos1, pos2 };
         lineRenderer.SetPositions(points);
@@ -104,7 +134,7 @@ public class Dimensions : MonoBehaviour
     /*
      * Функция добавляет коллаидер к линии
      */
-    void addCollider(LineRenderer lineRend, Vector3 p1, Vector3 p2)
+    private void AddCollider(LineRenderer lineRend, Vector3 p1, Vector3 p2)
     {
         if (line != null)
         {
@@ -123,18 +153,74 @@ public class Dimensions : MonoBehaviour
     }
 
     /*
+     * Функция выделения линии
+     */
+    private void SelectLine()
+    {
+        line = hit.collider.gameObject;
+        _selectedList.Add(line);
+        line.GetComponent<LineRenderer>().startColor = Color.blue;
+        line.GetComponent<LineRenderer>().endColor = Color.blue;
+    }
+
+    /*
      * Функция снимает выделение
      */
-    void clearSelected()
+    private void ClearSelected()
     {
         if (_selectedList != null)
         {
-            foreach (GameObject n in _selectedList)
+            foreach (GameObject selectedLine in _selectedList)
             {
-                n.GetComponent<LineRenderer>().startColor = Color.green;
-                n.GetComponent<LineRenderer>().endColor = Color.green;
+                selectedLine.GetComponent<LineRenderer>().startColor = Color.green;
+                selectedLine.GetComponent<LineRenderer>().endColor = Color.green;
             }
             _selectedList.Clear();
         }
+    }
+
+    /*
+     * Функция удаляет выделенные линии если нажата клавиша Delete
+     */
+    private void DeleteSelectedLines()
+    {
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            foreach (GameObject selectedLine in _selectedList)
+            {
+                Destroy(selectedLine);
+            }
+            _selectedList.Clear();
+        }
+    }
+
+    public void ChangePanelVisibility()
+    {
+        if (_panelIsOpened)
+        {
+            _panelIsOpened = false;
+        } else
+        {
+            _panelIsOpened = true;
+        }
+    }
+
+    private void OpenClosePanel()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ChangePanelVisibility();
+            Panel.SetActive(_panelIsOpened);
+        }
+    }
+
+    public void ToggleHighlightIsOn(bool newValue)
+    {
+
+    }
+
+    public void ToggleMeasureIsOn(bool newValue)
+    {
+
     }
 }
