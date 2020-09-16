@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Dimensions : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class Dimensions : MonoBehaviour
         }
     }
 
-    private bool _isOnMeasure = true;
+    private bool _isOnMeasure = false;
     public bool IsOnMeasure
     {
         get
@@ -60,32 +61,36 @@ public class Dimensions : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green);
         OpenClosePanel();
         DeleteSelectedLines();
-        if (Input.GetMouseButtonDown(0) && hit.collider.tag != "Line" && _isOnMeasure)
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            //Снимаем выделение с объекта(ов) если кликнули не на линии 
-            ClearSelected();
-            //Рисуем линию
-            if (point1 == Vector3.zero)
+            if (Input.GetMouseButtonDown(0) && hit.collider.tag != "Line" && _isOnMeasure)
             {
-                point1 = hit.point;
-                StartCoroutine(CreateLine(point1, hit.point));
+                //Снимаем выделение с объекта(ов) если кликнули не на линии 
+                ClearSelected();
+                //Рисуем линию
+                if (point1 == Vector3.zero)
+                {
+                    point1 = hit.point;
+                    StartCoroutine(CreateLine(point1, hit.point));
+                }
+                else if (point1 != Vector3.zero && point2 == Vector3.zero)
+                {
+                    point2 = hit.point;
+                    StartCoroutine(UpdateLine(point1, point2));
+                    AddCollider(lineRenderer, point1, point2);
+                    SaveDimensions();
+                    point1 = Vector3.zero;
+                    point2 = Vector3.zero;
+                }
             }
-            else if (point1 != Vector3.zero && point2 == Vector3.zero)
+            else if (Input.GetMouseButtonDown(0) && hit.collider.tag == "Line" && _isOnHightlight)
             {
-                point2 = hit.point;
-                StartCoroutine(UpdateLine(point1, point2));
-                AddCollider(lineRenderer, point1, point2);
-                SaveDimensions();
-                point1 = Vector3.zero;
-                point2 = Vector3.zero;
+                SelectLine();
             }
-        } else if (Input.GetMouseButtonDown(0) && hit.collider.tag == "Line" && _isOnHightlight)
-        {
-            SelectLine();
-        }
-        if (point1 != Vector3.zero && point2 == Vector3.zero && Physics.Raycast(ray, out hit))
-        {
-            StartCoroutine(UpdateLine(point1, hit.point));
+            if (point1 != Vector3.zero && point2 == Vector3.zero && Physics.Raycast(ray, out hit))
+            {
+                StartCoroutine(UpdateLine(point1, hit.point));
+            }
         }
     }
 
@@ -212,15 +217,5 @@ public class Dimensions : MonoBehaviour
             ChangePanelVisibility();
             Panel.SetActive(_panelIsOpened);
         }
-    }
-
-    public void ToggleHighlightIsOn(bool newValue)
-    {
-
-    }
-
-    public void ToggleMeasureIsOn(bool newValue)
-    {
-
     }
 }
