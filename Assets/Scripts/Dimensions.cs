@@ -147,6 +147,7 @@ public class Dimensions : MonoBehaviour
             lineCollider.transform.parent = lineRend.transform;
             float lineWidth = lineRend.endWidth;
             float lineLength = Vector3.Distance(p1, p2);
+            lineCollider.isTrigger = true;
             lineCollider.size = new Vector3(lineLength, lineWidth, .5f);
             lineCollider.transform.position = (p1 + p2) / 2;
             lineCollider.center = Vector3.zero;
