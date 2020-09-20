@@ -659,7 +659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8953d022165c14fd4b5d3bf5709525f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineWidth: 0.1
+  lineWidth: 0.05
   Panel: {fileID: 1606311676}
 --- !u!4 &1303944604
 Transform:

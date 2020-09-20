@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Dimensions : MonoBehaviour
 {
-    public float lineWidth = .1f; //ширина линии
+    public float lineWidth = .05f; //ширина линии
     int n = 1;// номер линии
 
     [SerializeField] GameObject Panel;
@@ -70,12 +70,12 @@ public class Dimensions : MonoBehaviour
                 //Рисуем линию
                 if (point1 == Vector3.zero)
                 {
-                    point1 = hit.point;
+                    point1 = hit.point + new Vector3(0, lineWidth, 0);
                     StartCoroutine(CreateLine(point1, hit.point));
                 }
                 else if (point1 != Vector3.zero && point2 == Vector3.zero)
                 {
-                    point2 = hit.point;
+                    point2 = hit.point + new Vector3(0, lineWidth, 0);
                     StartCoroutine(UpdateLine(point1, point2));
                     AddCollider(lineRenderer, point1, point2);
                     SaveDimensions();
@@ -107,6 +107,12 @@ public class Dimensions : MonoBehaviour
         _dimension.Clear();
     }
 
+    private float CalculateWidthInPoint(Vector3 point)
+    {
+        float distanceToCamera = Vector3.Distance(point, Camera.main.transform.position);
+        return lineWidth / distanceToCamera;
+    }
+
     /*
      * Функция рисует линию
      */
@@ -115,8 +121,11 @@ public class Dimensions : MonoBehaviour
         line = new GameObject("Line " + n);
         line.tag = "Line";
         lineRenderer = line.AddComponent<LineRenderer>();
+        //lineRenderer.startWidth = CalculateWidthInPoint(p1);
+        //lineRenderer.endWidth = CalculateWidthInPoint(p2);
+        lineRenderer.numCapVertices = 2;
         lineRenderer.widthMultiplier = lineWidth;
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.material = new Material(Shader.Find("Particles/Standard Unlit"));//Shader.Find("Sprites/Default")
         lineRenderer.startColor = Color.green;
         lineRenderer.endColor = Color.green;
         Vector3[] points = new Vector3[2] { p1, p2 };

@@ -71,6 +71,10 @@
     <Compile Include="Assets\Scripts\PlayerRotation.cs" />
     <Compile Include="Assets\Scripts\meshController.cs" />
     <Compile Include="Assets\Scripts\startSettings.cs" />
+    <None Include="Assets\Shaders\LR_T.shader" />
+    <None Include="Assets\Shaders\LineShaderWithDepth.shader" />
+    <None Include="Assets\Shaders\LineShader.shader" />
+    <None Include="Assets\Shaders\ShaderLineAlfa.shader" />
     <Reference Include="UnityEngine">
       <HintPath>/Applications/2019.4.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
