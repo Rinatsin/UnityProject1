@@ -1,19 +1,18 @@
 ﻿<Properties StartupConfiguration="{FC9411EB-1B12-4154-0219-EEA7CBD09863}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Dimensions.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LineCreator.cs">
     <Files>
-      <File FileName="Assets/Scripts/MoveScript.cs" Line="56" Column="10" />
-      <File FileName="Assets/Scripts/CameraController.cs" />
-      <File FileName="Assets/Scripts/MouseRotate.cs" />
+      <File FileName="Assets/Scripts/MoveScript.cs" Line="65" Column="6" />
       <File FileName="Assets/Scripts/startSettings.cs" />
-      <File FileName="Assets/Scripts/meshController.cs" Line="47" Column="62" />
-      <File FileName="Assets/Scripts/Dimensions.cs" Line="126" Column="41" />
-      <File FileName="Assets/Scripts/CoordinateViewer.cs" />
+      <File FileName="Assets/Scripts/meshController.cs" />
+      <File FileName="Assets/Scripts/Dimensions.cs" Line="21" Column="11" />
+      <File FileName="Assets/Scripts/CoordinateViewer.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/PlayerRotation.cs" />
+      <File FileName="Assets/Scripts/LineCreator.cs" Line="77" Column="74" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="8f675300-76d4-4df6-b2a4-22d75a635064" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="e67789dd-d6a4-4120-b8c7-9a24f85ae3d9" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
