@@ -5,7 +5,7 @@ using UnityEngine;
 //[RequireComponent(typeof(MeshFilter))]
 public class meshController : MonoBehaviour
 {
-    Mesh mesh;
+    private Mesh mesh;
 
     private Vector3[] vertices;
     private int[] triangles;
@@ -17,14 +17,13 @@ public class meshController : MonoBehaviour
     private Texture2D imageTexture; //избражение
     private float yAxisForMesh;
 
-    Color pixelColor;
+    private Color pixelColor;
     
     void Start()
     {
         imageTexture = Resources.Load(pathToImage) as Texture2D;
 
         mesh = new Mesh();
-        
 
         createMesh();
         updateMesh();
@@ -88,9 +87,6 @@ public class meshController : MonoBehaviour
                 i++;
             }
         }
-
-
-
     }
 
     void updateMesh()

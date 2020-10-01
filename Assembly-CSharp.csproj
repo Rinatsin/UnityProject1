@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\CoordinateViewer.cs" />
     <Compile Include="Assets\Scripts\DimensionWindow.cs" />
     <Compile Include="Assets\Scripts\Dimensions.cs" />
+    <Compile Include="Assets\Scripts\DimensionsViewer.cs" />
     <Compile Include="Assets\Scripts\LineCreator.cs" />
     <Compile Include="Assets\Scripts\LineSettingsPanel.cs" />
     <Compile Include="Assets\Scripts\MoveScript.cs" />

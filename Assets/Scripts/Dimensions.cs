@@ -2,33 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dimensions
+public static class Dimensions
 {
-    private float distance = 0; // Расстояние от начальной до конечной точки
-    private ArrayList _dimensions = new ArrayList(); //список всех полученных измерений
-    private ArrayList _dimension = new ArrayList();//cписок одного измерения[point1, point2, distance]
+    private static string _startPoint;
+    private static string _endPoint;
+    private static float _distance = 0;
+    private static string _distanceToString;
 
-    public void SaveDimensions(Vector3 startPoint, Vector3 endPoint)
+    public static void SaveDimensions(Vector3 startPoint, Vector3 endPoint)
     {
-        distance = Vector3.Distance(startPoint, endPoint);
-        _dimension.Add(startPoint);
-        _dimension.Add(endPoint);
-        _dimension.Add(distance);
-        _dimensions.Add(_dimension);
-        _dimension.Clear();
+        _startPoint = startPoint.ToString();
+        _endPoint = endPoint.ToString();
+        _distance = Vector3.Distance(startPoint, endPoint);
+        _distanceToString = _distance.ToString("#.#");
+        PlayerPrefs.SetString("StartPoint", _startPoint);
+        PlayerPrefs.SetString("EndPoint", _endPoint);
+        PlayerPrefs.SetString("Distance", _distanceToString);
+        PlayerPrefs.Save();
+        Debug.Log("Dimensions Saved");
     }
 
-    public string ViewAllDimensions()
+    public static string LoadDimension(string dimension)
     {
-        if (_dimensions.Count > 0)
+        switch (dimension)
         {
-            foreach (ArrayList dimension in _dimensions)
-            {
-                return $"point 1: {dimension[0]}, point 2: {dimension[1]}, distance: {dimension[2]} \n";
-            }
+            case "StartPoint":
+                return PlayerPrefs.GetString("StartPoint");
+            case "EndPoint":
+                return PlayerPrefs.GetString("EndPoint");
+            case "Distance":
+                return PlayerPrefs.GetString("Distance");
+            default:
+                return "Измерения нет";
         }
-        return "Измерений пока нет";
-        
+    }
+
+    public static void ResetDimensions()
+    {
+        PlayerPrefs.DeleteAll();
+        _startPoint = "";
+        _endPoint = "";
+        _distance = 0.0f;
     }
     
 }

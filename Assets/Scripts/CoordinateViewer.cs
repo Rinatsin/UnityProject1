@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class CoordinateViewer : MonoBehaviour
 {
-    Vector3 cursorPos;
-    Text coordinate;
-    RectTransform textPos;
-    Ray ray;
-    RaycastHit hit;
+    private Vector3 cursorPos;
+    private Text coordinate;
+    private RectTransform textPos;
+    private Ray ray;
+    private RaycastHit hit;
 
     private string x;
     private string z;

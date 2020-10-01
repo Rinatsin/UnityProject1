@@ -5,13 +5,11 @@ using UnityEngine.EventSystems;
 
 public class LineCreator : MonoBehaviour
 {
-    public float lineWidth = .05f;
+    [SerializeField] private float lineWidth = .05f;
 
     private Vector3 startPoint = Vector3.zero; 
     private Vector3 endPoint = Vector3.zero;
     private ArrayList _selectedList = new ArrayList();
-
-    private Dimensions _dimensions;
 
     private Ray ray;
     private RaycastHit hit;
@@ -47,17 +45,17 @@ public class LineCreator : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        _dimensions = new Dimensions();
-    }
-
     void Update()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(ray, out hit);
         Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green);
         DeleteSelectedLines();
+        CreateLine();
+    }
+
+    private void CreateLine()
+    {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
             if (Input.GetMouseButtonDown(0))
@@ -69,14 +67,16 @@ public class LineCreator : MonoBehaviour
                     if (startPoint == Vector3.zero)
                     {
                         startPoint = hit.point + new Vector3(0, lineWidth, 0);
-                        CreateLine(startPoint, hit.point);
+                        DrawLine(startPoint, hit.point);
                     }
                     else if (startPoint != Vector3.zero && endPoint == Vector3.zero)
                     {
                         endPoint = hit.point + new Vector3(0, lineWidth, 0);
-                        _dimensions.SaveDimensions(startPoint, endPoint);
                         UpdateLine(startPoint, endPoint);
                         AddCollider(lineRenderer, startPoint, endPoint);
+
+                        Dimensions.SaveDimensions(startPoint, endPoint);
+
                         startPoint = Vector3.zero;
                         endPoint = Vector3.zero;
                     }
@@ -93,7 +93,7 @@ public class LineCreator : MonoBehaviour
         }
     }
 
-    private void CreateLine(Vector3 p1, Vector3 p2)
+    private void DrawLine(Vector3 p1, Vector3 p2)
     {
         line = new GameObject("Line");
         line.tag = "Line";
@@ -153,7 +153,7 @@ public class LineCreator : MonoBehaviour
         }
     }
 
-    private void DeleteSelectedLines()
+    public void DeleteSelectedLines()
     {
         if (Input.GetKeyDown(KeyCode.Delete))
         {

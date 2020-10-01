@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DimensionWindow : MonoBehaviour
 {
-    [SerializeField] GameObject DimensionsText;
+    [SerializeField] private GameObject DimensionsViewer;
     private bool _textIsVisible = false;
 
     void Update() => OpenClosePanel();
@@ -27,7 +27,7 @@ public class DimensionWindow : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             ChangePanelVisibility();
-            DimensionsText.SetActive(_textIsVisible);
+            DimensionsViewer.SetActive(_textIsVisible);
         }
     }
 }

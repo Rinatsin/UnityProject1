@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayerRotation : MonoBehaviour
 {
     [SerializeField, Range(1f, 360f)]
-    float rotationSpeed = 100f;
+    public float rotationSpeed = 100f;
 
     [SerializeField, Range(-89f, 89f)]
-    float minVerticalAngle = -60f, maxVerticalAngle = 60f;
+    public float minVerticalAngle = -60f, maxVerticalAngle = 60f;
 
-    Vector2 angles = new Vector2(-10f, 0f);
+    private Vector2 angles = new Vector2(-10f, 0f);
 
     private void Awake()
     {
