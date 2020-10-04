@@ -51,11 +51,6 @@ public class LineCreator : MonoBehaviour
         Physics.Raycast(ray, out hit);
         Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green);
         DeleteSelectedLines();
-        CreateLine();
-    }
-
-    private void CreateLine()
-    {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
             if (Input.GetMouseButtonDown(0))
@@ -164,4 +159,5 @@ public class LineCreator : MonoBehaviour
             _selectedList.Clear();
         }
     }
+
 }
