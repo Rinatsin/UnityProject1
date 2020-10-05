@@ -39,12 +39,13 @@ public static class Dimensions
     public static void ResetDimensions()
     {
         PlayerPrefs.DeleteAll();
+        _counter = 0;
         _startPoint = "";
         _endPoint = "";
         _distance = 0.0f;
     }
 
-    public static string LoadDimension(string dimensionName, int numberOfDimension)
+    private static string LoadDimension(string dimensionName, int numberOfDimension)
     {
         switch (dimensionName)
         {

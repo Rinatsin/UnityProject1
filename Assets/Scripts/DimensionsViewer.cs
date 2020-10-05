@@ -20,6 +20,16 @@ public class DimensionsViewer : MonoBehaviour
         {
             numberOfDimension = Dimensions.Counter;
             _dimensionText.text = Dimensions.LoadDimensionsList(numberOfDimension);
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                ClearUIDimensionsList();
+            }
         }
+    }
+
+    private void ClearUIDimensionsList()
+    {
+        Dimensions.ResetDimensions();
+        _dimensionText.text = "";
     }
 }
